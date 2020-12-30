@@ -1,6 +1,6 @@
 """
 Mineclone - mineclone.py
-v0.0.1
+v0.0.2 beta
 
 Brought to you by Jatc251
 https://jatc251.com
@@ -26,6 +26,12 @@ from pyglet.window import key, mouse
 
 from noise_gen import NoiseGen
 
+print(" ")
+print("Mineclone")
+print("Licensed under the GNU GPL (v3)")
+print("https://github.com/Jatc252/Mineclone")
+print(" ")
+
 # Variables for the chosen values the user chooses
 global tpsInput
 global flySpeedInput
@@ -44,87 +50,99 @@ global int_tps
 global int_walkSpeed
 global int_worldSize
 
-
-print(" ")
-print("Mineclone")
-print("Licensed under the GNU GPL (v3)")
-print("https://github.com/Jatc252/Mineclone")
-print(" ")
-
-# Default values for game
-tpsInput = 120
-flySpeedInput = 15
-gravityInput = 20
-playerHeightInput = 2
-walkSpeedInput = 5
-worldSizeInput = 80
-jumpHeightInput = 1
-
-int_flySpeed = int(flySpeedInput)
-int_gravity = int(gravityInput)
-int_jumpHeight = int(jumpHeightInput)
-int_playerHeight = int(playerHeightInput)
-int_tps = int(tpsInput)
-int_walkSpeed = int(walkSpeedInput)
-int_worldSize = int(worldSizeInput)
-
-
+"""
 # Asks user for configuration values for the world
 def askForVariables():
-    defaultYesNo = input("Would you like to use the default world configuration? (y/n) ")
-    if defaultYesNo.casefold() == 'y' or defaultYesNo.casefold() == 'yes':
+    defaultYesNo = input("Would you like to use the default game configuration? (y/n) ")
+    if defaultYesNo.casefold() == 'y':
         print("Using the default world configuration...")
     elif defaultYesNo == 'n':
-        print("Please set your chosen values. Input 'd' or 'default' for default values")
+        print("Please set your chosen values. Input 'd' for default values")
         print(" ")
 
-        tpsInput = input("TPS? ")
-        if tpsInput.casefold() == 'd' or tpsInput.casefold() == 'default':
-            tpsInput = 120
-        int_tps = int(tpsInput)
+        while True:
+            try:
+                tpsInput = input("TPS? ")
+                if tpsInput.casefold() == 'd':
+                    tpsInput = 120
+                int_tps = int(tpsInput)
+                break
+            except ValueError:
+                print(tpsInput + " is not a valid number.")
         print("TPS is now: ", int_tps)
         print(" ")
 
-        walkSpeedInput = input("Walk Speed? ")
-        if walkSpeedInput.casefold() == 'd' or walkSpeedInput.casefold() == 'default':
-            walkSpeedInput = 5
-        int_walkSpeed = int(walkSpeedInput)
+        while True:
+            try:
+                walkSpeedInput = input("Walk Speed? ")
+                if walkSpeedInput.casefold() == 'd':
+                    walkSpeedInput = 5
+                int_walkSpeed = int(walkSpeedInput)
+                break
+            except ValueError:
+                print(walkSpeedInput + " is not a valid number.")
         print("Walk Speed is now: ", int_walkSpeed)
         print(" ")
 
-        flySpeedInput = input("Fly Speed? ")
-        if flySpeedInput.casefold() == 'd' or flySpeedInput.casefold() == 'default':
-            flySpeedInput = 15
-        int_flySpeed = int(flySpeedInput)
+        while True:
+            try:
+                flySpeedInput = input("Fly Speed? ")
+                if flySpeedInput.casefold() == 'd':
+                    flySpeedInput = 15
+                int_flySpeed = int(flySpeedInput)
+                break
+            except ValueError:
+                print(flySpeedInput + " is not a valid number.")
         print("Fly Speed is now: ", int_flySpeed)
         print(" ")
 
-        gravityInput = input("Gravity? ")
-        if gravityInput.casefold() == 'd' or gravityInput.casefold() == 'default':
-            gravityInput = 20
-        int_gravity = int(gravityInput)
+        while True:
+            try:
+                gravityInput = input("Gravity? ")
+                if gravityInput.casefold() == 'd':
+                    gravityInput = 20
+                int_gravity = int(gravityInput)
+                break
+            except ValueError:
+                print(gravityInput + " is not a valid number.")
         print("Gravity is now: ", int_gravity)
         print(" ")
 
-        playerHeightInput = input(
-            "Player Height? ")
-        if playerHeightInput.casefold() == 'd' or playerHeightInput.casefold() == 'default':
-            playerHeightInput = 2
-        int_playerHeight = int(playerHeightInput)
+        while True:
+            try:
+                playerHeightInput = input(
+                    "Player Height? ")
+                if playerHeightInput.casefold() == 'd':
+                    playerHeightInput = 2
+                int_playerHeight = int(playerHeightInput)
+                break
+            except ValueError:
+                print(playerHeightInput + " is not a valid number.")
         print("Player Height is now: ", int_playerHeight)
         print(" ")
 
-        worldSizeInput = input("World Size? ")
-        if worldSizeInput.casefold() == 'd' or worldSizeInput.casefold() == 'default':
-            worldSizeInput = 80
-        int_worldSize = int(worldSizeInput)
+        while True:
+            try:
+                worldSizeInput = input("World Size? ")
+                if worldSizeInput.casefold() == 'd':
+                    worldSizeInput = 80
+                int_worldSize = int(worldSizeInput)
+                break
+            except ValueError:
+                print(worldSizeInput + " is not a valid number.")
         print("World Size is now: ", int_worldSize)
         print(" ")
 
-        jumpHeightInput = input("Jump height? ")
-        if jumpHeightInput.casefold() == 'd' or jumpHeightInput.casefold() == 'default':
-            jumpHeightInput = 1
-        int_jumpHeight = int(jumpHeightInput)
+        while True:
+            try:
+                jumpHeightInput = input("Jump height? ")
+                if jumpHeightInput.casefold() == 'd':
+                    jumpHeightInput = 1
+                else:
+                    int_jumpHeight = int(jumpHeightInput)
+                break
+            except ValueError:
+                print(jumpHeightInput + " is not a valid number.")
         print("Jump Height is now: ", int_jumpHeight)
         print(" ")
 
@@ -145,7 +163,17 @@ def printConfig():
 
 
 askForVariables()
-printConfig()
+#printConfig()
+"""
+
+# comment out above functions till i get around to writing new one
+int_tps = int(input("tps"))
+int_worldSize = int(input("world size"))
+int_gravity = int(input ("gravoity"))
+int_flySpeed = int(input("fly spedd"))
+int_walkSpeed = int(input("walk speld"))
+int_jumpHeight = int(input("jump heioght"))
+int_playerHeight = int(input("player height"))
 
 TICKS_PER_SEC = int_tps
 
@@ -172,7 +200,6 @@ PLAYER_HEIGHT = int_playerHeight
 
 if sys.version_info[0] >= 3:
     xrange = range
-
 
 def cube_vertices(x, y, z, n):
     # Return the vertices of the cube at position x, y, z with size 2*n.
@@ -598,7 +625,7 @@ class Model(object):
 class Window(pyglet.window.Window):
 
     def __init__(self, *args, **kwargs):
-        super(Window, self).__init__(*args, **kwargs)
+        super(Window, self).__init__(*args, **kwargs, vsync = False)
 
         # Whether or not the window exclusively captures the mouse.
         self.exclusive = False
@@ -1056,8 +1083,8 @@ def setup():
 
 
 def main():
-    window = Window(width=1920, height=1080,
-                    caption='Mineclone', resizable=True)
+    window = Window(width=800, height=600,
+                    caption='Mineclone v0.0.2', resizable=True)
     # Hide the mouse cursor and prevent the mouse from leaving the window.
     window.set_exclusive_mouse(True)
     # Load taskbar icon

@@ -1,6 +1,6 @@
 """
 Mineclone - noise_gen.py
-v0.0.1
+v0.0.2 beta
 
 Brought to you by Jatc251
 https://jatc251.com
@@ -12,7 +12,6 @@ import math
 
 
 class NoiseParameters:
-    """ this is just here to keep pylint happy """
     def __init__(self, octaves, amplitude, smoothness, roughness, heightOffset):
         self.octaves = octaves
         self.amplitude = amplitude
@@ -22,7 +21,6 @@ class NoiseParameters:
 
 
 class NoiseGen:
-    """ this is just here to keep pylint happy """
 
     def __init__(self, seed):
         self.seed = seed
