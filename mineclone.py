@@ -56,7 +56,6 @@ walkSpeedInt = 5
 worldSizeInt = 80
 jumpHeightInt = 1
 
-
 print(" ")
 print("Mineclone " + version)
 print("Licensed under the GNU GPL (v3)")
