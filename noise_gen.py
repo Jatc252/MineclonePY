@@ -1,6 +1,6 @@
 """
 Mineclone - noise_gen.py
-v0.0.2 beta
+v0.0.2 beta 1
 
 Brought to you by Jatc251
 https://jatc251.com
