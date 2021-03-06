@@ -18,34 +18,18 @@ import time
 from random import seed
 from random import randint
 
+# Pyglet
 from collections import deque
 from pyglet import image
 from pyglet.gl import *
 from pyglet.graphics import TextureGroup
 from pyglet.window import key, mouse
 
+import config_values
 from noise_gen import NoiseGen
 
 global version
 version = "v0.0.2 beta 1"
-
-# User inputted variables in their string form to be integerised
-global tpsString
-global flySpeedString
-global gravityString
-global playerHeightString
-global walkSpeedString
-global worldSizeString
-global jumpHeightString
-
-# Variables to be filled with the integerised versions of their string counterparts
-global tpsInt
-global flySpeedInt
-global gravityInt
-global playerHeightInt
-global walkSpeedInt
-global worldSizeInt
-global jumpHeightInt
 
 # Set defaults of integerised variables
 tpsInt = 120
@@ -87,6 +71,7 @@ PLAYER_HEIGHT = playerHeightInt
 
 if sys.version_info[0] >= 3:
     xrange = range
+
 
 def cube_vertices(x, y, z, n):
     # Return the vertices of the cube at position x, y, z with size 2*n.
@@ -514,7 +499,7 @@ class Model(object):
 class Window(pyglet.window.Window):
 
     def __init__(self, *args, **kwargs):
-        super(Window, self).__init__(*args, **kwargs, vsync = False)
+        super(Window, self).__init__(*args, **kwargs, vsync=False)
 
         # Whether or not the window exclusively captures the mouse.
         self.exclusive = False
@@ -984,5 +969,7 @@ def main():
     # Pyglet run
     pyglet.app.run()
 
+# Causes attribute error if called, default values for now
+#config_values.askConfigValues()
 
 main()
