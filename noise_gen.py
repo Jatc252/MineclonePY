@@ -1,15 +1,12 @@
 """
 Mineclone - noise_gen.py
-v0.0.2 beta 1
+v0.0.2
 
-Brought to you by Jatc251
-https://jatc251.com
-
+Website: https://jatc251.com
 GitHub: https://github.com/Jatc252/Mineclone
 """
 
 import math
-
 
 class NoiseParameters:
     def __init__(self, octaves, amplitude, smoothness, roughness, heightOffset):
@@ -18,7 +15,6 @@ class NoiseParameters:
         self.smoothness = smoothness
         self.roughness = roughness
         self.heightOffset = heightOffset
-
 
 class NoiseGen:
 

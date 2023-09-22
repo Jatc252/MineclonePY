@@ -1,14 +1,10 @@
 """
 Mineclone - mineclone.py
-v0.0.2 beta 1
+v0.0.2
 
-Brought to you by Jatc251
-https://jatc251.com
-
+Website: https://jatc251.com
 GitHub: https://github.com/Jatc252/Mineclone
 """
-
-from __future__ import division
 
 import sys
 import math
@@ -20,18 +16,23 @@ from random import randint
 
 # Pyglet
 from collections import deque
+
+import pyglet.app
 from pyglet import image
 from pyglet.gl import *
 from pyglet.graphics import TextureGroup
 from pyglet.window import key, mouse
 
-import config_values
 from noise_gen import NoiseGen
 
-global version
-version = "v0.0.2 beta 1"
+version = "v0.0.2"
+print(" ")
+print("Mineclone " + version)
+print("https://jatc251.com")
+print("https://github.com/Jatc252/Mineclone")
+print(" ")
 
-# Set defaults of integerised variables
+# Defaults for variables which are used by the code
 tpsInt = 120
 flySpeedInt = 15
 gravityInt = 20
@@ -39,13 +40,173 @@ playerHeightInt = 2
 walkSpeedInt = 5
 worldSizeInt = 80
 jumpHeightInt = 1
+renderDistanceInt = 50
+fovInt = 70
+# Fog start and end calculations
+glFogStart = renderDistanceInt - renderDistanceInt / 5
+glFogEnd = renderDistanceInt + renderDistanceInt / 5
 
-print(" ")
-print("Mineclone " + version)
-print("Licensed under the GNU GPL (v3)")
-print("https://github.com/Jatc252/Mineclone")
-print(" ")
+def askConfigValues():
+    global tpsInt
+    global flySpeedInt
+    global gravityInt
+    global playerHeightInt
+    global walkSpeedInt
+    global worldSizeInt
+    global jumpHeightInt
+    global renderDistanceInt
+    global fovInt
+    global tpsString
+    global flySpeedString
+    global gravityString
+    global playerHeightString
+    global walkSpeedString
+    global worldSizeString
+    global jumpHeightString
+    global fovString
+    global renderDistanceString
+    print("Mineclone configuration")
+    print("")
+    print("Would you like to use default values?")
+    choice = input("y or n: ")
 
+    # Does the user want to use the default values or specify their own?
+    if choice.casefold() == 'y':
+        print("Using default values")
+        return
+    else:
+        print("Using custom values")
+
+    print("Choose your values. Type d to use the default value for that option.")
+    print(" ")
+
+    while True:
+        try:
+            tpsString = input("TPS? ")
+            if tpsString.casefold() == 'd':
+                tpsString = 120
+            tpsInt = int(tpsString)
+            break
+        except ValueError:
+            print(tpsString + " is not a valid number.")
+    print("TPS is now: ", tpsInt)
+    print(" ")
+
+    while True:
+        try:
+            walkSpeedString = input("Walk speed? ")
+            if walkSpeedString.casefold() == 'd':
+                walkSpeedString = 5
+            walkSpeedInt = int(walkSpeedString)
+            break
+        except ValueError:
+            print(walkSpeedString + " is not a valid number.")
+    print("Walk speed is now: ", walkSpeedInt)
+    print(" ")
+
+    while True:
+        try:
+            flySpeedString = input("Fly speed? ")
+            if flySpeedString.casefold() == 'd':
+                flySpeedString = 15
+            flySpeedInt = int(flySpeedString)
+            break
+        except ValueError:
+            print(flySpeedString + " is not a valid number.")
+    print("Fly speed is now: ", flySpeedInt)
+    print(" ")
+
+    while True:
+        try:
+            gravityString = input("Gravity? ")
+            if gravityString.casefold() == 'd':
+                gravityString = 20
+            gravityInt = int(gravityString)
+            break
+        except ValueError:
+            print(gravityString + " is not a valid number.")
+    print("Gravity is now: ", gravityInt)
+    print(" ")
+
+    while True:
+        try:
+            playerHeightString = input(
+                "Player height? ")
+            if playerHeightString.casefold() == 'd':
+                playerHeightString = 2
+            playerHeightInt = int(playerHeightString)
+            break
+        except ValueError:
+            print(playerHeightString + " is not a valid number.")
+    print("Player height is now: ", playerHeightInt)
+    print(" ")
+
+    while True:
+        try:
+            worldSizeString = input("World size? ")
+            if worldSizeString.casefold() == 'd':
+                worldSizeString = 80
+            worldSizeInt = int(worldSizeString)
+            break
+        except ValueError:
+            print(worldSizeString + " is not a valid number.")
+    print("World size is now: ", worldSizeInt)
+    print(" ")
+
+    while True:
+        try:
+            jumpHeightString = input("Jump height? ")
+            if jumpHeightString.casefold() == 'd':
+                jumpHeightString = 1
+            else:
+                jumpHeightInt = int(jumpHeightString)
+            break
+        except ValueError:
+            print(jumpHeightString + " is not a valid number.")
+    print("Jump height is now: ", jumpHeightInt)
+    print(" ")
+
+    while True:
+        try:
+            renderDistanceString = input("Render distance? ")
+            if renderDistanceString.casefold() == 'd':
+                renderDistanceString = 1
+            else:
+                renderDistanceInt = int(renderDistanceString)
+            break
+        except ValueError:
+            print(renderDistanceString + " is not a valid number.")
+    print("Render distance is now: ", renderDistanceInt)
+    print(" ")
+
+    while True:
+        try:
+            fovString = input("FOV? ")
+            if fovString.casefold() == 'd':
+                fovString = 70
+            fovInt = int(fovString)
+            break
+        except ValueError:
+            print(fovString + " is not a valid number.")
+    print("FOV is now: ", fovInt)
+    print(" ")
+
+    print("Using configuration: ")
+    print("TPS: ", tpsInt)
+    print("World size: ", worldSizeInt)
+    print("Gravity: ", gravityInt)
+    print("Fly speed: ", flySpeedInt)
+    print("Walk speed: ", walkSpeedInt)
+    print("Jump height: ", jumpHeightInt)
+    print("Player height: ", playerHeightInt)
+    print("Render distance: ", renderDistanceInt)
+    print("FOV: ", fovInt)
+
+
+askConfigValues()
+
+# How many times per second the game calls the motion logic, along with gravity and collision detection methods.
+# Works fine from ~30, with diminishing returns after ~120
 TICKS_PER_SEC = tpsInt
 
 # Size of sectors used to ease block loading.
@@ -59,7 +220,7 @@ MAX_JUMP_HEIGHT = jumpHeightInt  # About the height of a block.
 
 # To derive the formula for calculating jump speed, first solve
 #    v_t = v_0 + a * t
-# for the time at which you achieve maximum height, where a is the acceleration
+# for the time at which you achieve maximum height, where 'a' is the acceleration
 # due to gravity and v_t = 0. This gives:
 #    t = - v_0 / a
 # Use t and the desired MAX_JUMP_HEIGHT to solve for v_0 (jump speed) in
@@ -155,10 +316,10 @@ def normalize(position):
     """
     x, y, z = position
     x, y, z = (int(round(x)), int(round(y)), int(round(z)))
-    return (x, y, z)
+    return x, y, z
 
 
-def sectorize(position):
+def sectorise(position):
     """ Returns a tuple representing the sector for the given `position`.
 
     Parameters
@@ -172,7 +333,7 @@ def sectorize(position):
     """
     x, y, z = normalize(position)
     x, y, z = x // SECTOR_SIZE, y // SECTOR_SIZE, z // SECTOR_SIZE
-    return (x, 0, z)
+    return x, 0, z
 
 
 class Model(object):
@@ -213,7 +374,6 @@ class Model(object):
 
         n = 128  # size of the world
         s = 1  # step size
-        y = 0  # initial y height
 
         # Dodgy height map (too lazy to do this properly lol)
         heightMap = []
@@ -228,20 +388,21 @@ class Model(object):
         for x in xrange(0, n, s):
             for z in xrange(0, n, s):
                 h = heightMap[z + x * n]
-                if (h < 15):
+                if h < 15:
                     self.add_block((x, h, z), SAND, immediate=False)
                     for y in range(h, 15):
                         self.add_block((x, y, z), WATER, immediate=False)
                     continue
-                if (h < 18):
+                if h < 18:
                     self.add_block((x, h, z), SAND, immediate=False)
                 self.add_block((x, h, z), GRASS, immediate=False)
                 for y in xrange(h - 1, 0, -1):
                     self.add_block((x, y, z), STONE, immediate=False)
 
                 # Tree Generation
-                # Maybe add tree at this (x, z)
-                if (h > 20):
+                # Maybe add tree at this (x, z) provided height is above 20
+                if h > 20:
+                    # spawn tree provided random number between 0 and 100 is above 990
                     if random.randrange(0, 1000) > 990:
                         treeHeight = random.randrange(5, 7)
                         # Tree trunk
@@ -277,10 +438,10 @@ class Model(object):
         dx, dy, dz = vector
         previous = None
         for _ in xrange(max_distance * m):
-            key = normalize((x, y, z))
-            if key != previous and key in self.world:
-                return key, previous
-            previous = key
+            hitTestKey = normalize((x, y, z))
+            if hitTestKey != previous and hitTestKey in self.world:
+                return hitTestKey, previous
+            previous = hitTestKey
             x, y, z = x + dx / m, y + dy / m, z + dz / m
         return None, None
 
@@ -306,13 +467,13 @@ class Model(object):
             The coordinates of the texture squares. Use `texCoords()` to
             generate.
         immediate : bool
-            Whether or not to draw the block immediately.
+            Whether to draw the block immediately.
 
         """
         if position in self.world:
             self.remove_block(position, immediate)
         self.world[position] = texture
-        self.sectors.setdefault(sectorize(position), []).append(position)
+        self.sectors.setdefault(sectorise(position), []).append(position)
         if immediate:
             if self.exposed(position):
                 self.show_block(position)
@@ -326,11 +487,11 @@ class Model(object):
         position : tuple of len 3
             The (x, y, z) position of the block to remove.
         immediate : bool
-            Whether or not to immediately remove block from canvas.
+            Whether to immediately remove block from canvas.
 
         """
         del self.world[position]
-        self.sectors[sectorize(position)].remove(position)
+        self.sectors[sectorise(position)].remove(position)
         if immediate:
             if position in self.shown:
                 self.hide_block(position)
@@ -345,15 +506,15 @@ class Model(object):
         """
         x, y, z = position
         for dx, dy, dz in FACES:
-            key = (x + dx, y + dy, z + dz)
-            if key not in self.world:
+            checkNeighboursKey = (x + dx, y + dy, z + dz)
+            if checkNeighboursKey not in self.world:
                 continue
-            if self.exposed(key):
-                if key not in self.shown:
-                    self.show_block(key)
+            if self.exposed(checkNeighboursKey):
+                if checkNeighboursKey not in self.shown:
+                    self.show_block(checkNeighboursKey)
             else:
-                if key in self.shown:
-                    self.hide_block(key)
+                if checkNeighboursKey in self.shown:
+                    self.hide_block(checkNeighboursKey)
 
     def show_block(self, position, immediate=True):
         """ Show the block at the given `position`. This method assumes the
@@ -364,7 +525,7 @@ class Model(object):
         position : tuple of len 3
             The (x, y, z) position of the block to show.
         immediate : bool
-            Whether or not to show the block immediately.
+            Whether to show the block immediately.
 
         """
         texture = self.world[position]
@@ -404,7 +565,7 @@ class Model(object):
         position : tuple of len 3
             The (x, y, z) position of the block to hide.
         immediate : bool
-            Whether or not to immediately remove the block from the canvas.
+            Whether to immediately remove the block from the canvas.
 
         """
         self.shown.pop(position)
@@ -499,9 +660,9 @@ class Model(object):
 class Window(pyglet.window.Window):
 
     def __init__(self, *args, **kwargs):
-        super(Window, self).__init__(*args, **kwargs, vsync=False)
+        super(Window, self).__init__(*args, **kwargs)
 
-        # Whether or not the window exclusively captures the mouse.
+        # Whether the window exclusively captures the mouse.
         self.exclusive = False
 
         # When flying gravity has no effect and speed is increased.
@@ -582,7 +743,7 @@ class Window(pyglet.window.Window):
         dy = math.sin(math.radians(y))
         dx = math.cos(math.radians(x - 90)) * m
         dz = math.sin(math.radians(x - 90)) * m
-        return (dx, dy, dz)
+        return dx, dy, dz
 
     def get_motion_vector(self):
         """ Returns the current motion vector indicating the velocity of the
@@ -621,7 +782,7 @@ class Window(pyglet.window.Window):
             dy = 0.0
             dx = 0.0
             dz = 0.0
-        return (dx, dy, dz)
+        return dx, dy, dz
 
     def update(self, dt):
         """ This method is scheduled to be called repeatedly by the pyglet
@@ -634,7 +795,7 @@ class Window(pyglet.window.Window):
 
         """
         self.model.process_queue()
-        sector = sectorize(self.position)
+        sector = sectorise(self.position)
         if sector != self.sector:
             self.model.change_sectors(self.sector, sector)
             if self.sector is None:
@@ -791,6 +952,10 @@ class Window(pyglet.window.Window):
             self.strafe[1] -= 1
         elif symbol == key.D:
             self.strafe[1] += 1
+        elif symbol == key.R:
+            # not sure if this clear is needed
+            Window.clear(self)
+            askConfigValues()
         elif symbol == key.SPACE:
             if self.dy == 0:
                 self.dy = JUMP_SPEED
@@ -863,7 +1028,7 @@ class Window(pyglet.window.Window):
         glViewport(0, 0, max(1, viewport[0]), max(1, viewport[1]))
         glMatrixMode(GL_PROJECTION)
         glLoadIdentity()
-        gluPerspective(65.0, width / float(height), 0.1, 60.0)
+        gluPerspective(fovInt, width / float(height), 0.001, glFogEnd)
         glMatrixMode(GL_MODELVIEW)
         glLoadIdentity()
         x, y = self.rotation
@@ -905,13 +1070,13 @@ class Window(pyglet.window.Window):
 
         """
         x, y, z = self.position
-        self.label.text = 'FPS: %02d (X: %.2f, Y: %.2f, Z: %.2f) Shown blocks %d / Total blocks: %d' % (
+        self.label.text = 'FPS: %02d (X: %.2f, Y: %.2f, Z: %.2f) Shown faces %d / Total blocks: %d' % (
             pyglet.clock.get_fps(), x, y, z,
-            len(self.model._shown), len(self.model.world))
+            len(self.model.shown), len(self.model.world))
         self.label.draw()
 
     def draw_reticle(self):
-        """ Draw the crosshairs in the center of the screen.
+        """ Draw the cross-hairs in the center of the screen.
 
         """
         glColor3d(0, 0, 0)
@@ -922,7 +1087,7 @@ def setup_fog():
     """ Configure the OpenGL fog properties.
 
     """
-    # Enable fog. Fog "blends a fog color with each rasterized pixel fragment's
+    # Enable fog. Fog "blends a fog color with each rasterised pixel fragment's
     # post-texturing color."
     glEnable(GL_FOG)
     # Set the fog color.
@@ -933,8 +1098,8 @@ def setup_fog():
     glFogi(GL_FOG_MODE, GL_LINEAR)
     # How close and far away fog starts and ends. The closer the start and end,
     # the denser the fog in the fog range.
-    glFogf(GL_FOG_START, 40.0)
-    glFogf(GL_FOG_END, 60.0)
+    glFogf(GL_FOG_START, glFogStart)
+    glFogf(GL_FOG_END, glFogEnd)
 
 
 def setup():
@@ -969,8 +1134,5 @@ def main():
     # Pyglet run
     pyglet.app.run()
 
-
-# Causes attribute error if called, default values for now
-#config_values.askConfigValues()
 
 main()
