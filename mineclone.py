@@ -1,34 +1,29 @@
 """
 Mineclone - mineclone.py
-v0.0.2
+v0.1.0
 
 Website: https://jatc251.com
 GitHub: https://github.com/Jatc252/Mineclone
 """
 
-import sys
 import math
 import random
 import time
-
 from random import seed
 from random import randint
-
 from collections import deque
-
-from pyglet import image
-from pyglet.window import key, mouse
-
 from noise_gen import NoiseGen
 
 # Pyglet
 import pyglet.app
-import pyglet.image
-from pyglet import gl
 import pyglet.graphics
+import pyglet.image
 import pyglet.window
+from pyglet import gl
 from pyglet.image import *
 from pyglet.input import *
+from pyglet import image
+from pyglet.window import key, mouse
 
 version = "v0.1.0"
 print(" ")
