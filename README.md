@@ -1,5 +1,5 @@
 # Mineclone
-A project from [Jatc251](https://jatc251.com), forked from [fogleman](https://github.com/fogleman/)'s [python clone of minecraft](https://github.com/fogleman/Minecraft/)
+A project from [Jatc251](https://jatc251.com), forked from [fogleman](https://github.com/fogleman/)'s [python clone of Minecraft](https://github.com/fogleman/Minecraft/)
 
 This Minecraft clone was written in Python, using a single library to be able to get these functions:
 - place blocks
