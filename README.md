@@ -1,13 +1,11 @@
 # Mineclone
-A project from [Jatc251](https://jatc251.com)
+A project from [Jatc251](https://jatc251.com), forked from [fogleman](https://github.com/fogleman/)'s [python clone of Minecraft](https://github.com/fogleman/Minecraft/)
 
 This Minecraft clone was written in Python, using a single library to be able to get these functions:
 - place blocks
 - "mine" blocks
 - select different blocks
 - change texture pack.
-
-I believe that this was "acquired" from some website online. If anyone knows, please let me know.
 
 ## Dependencies
 Mineclone is able to function using only `pyglet`.
