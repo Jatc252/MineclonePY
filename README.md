@@ -8,7 +8,7 @@ This Minecraft clone was written in Python, using a single library to be able to
 - change texture pack.
 
 ## Dependencies
-MineclonePY is able to function using only `pyglet`.
+MineclonePY is able to function using only `pyglet` (version <2.0).
 
 ## Controls
 - Use left click to destroy block you're looking at
