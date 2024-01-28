@@ -1,9 +1,9 @@
 """
-Mineclone - mineclone.py
+MineclonePY - mineclone.py
 v0.1.0
 
 Website: https://jatc251.com
-GitHub: https://github.com/Jatc252/Mineclone
+GitHub: https://github.com/Jatc252/MineclonePY
 """
 
 import math
@@ -27,9 +27,9 @@ from pyglet.window import key, mouse
 
 version = "v0.1.0"
 print(" ")
-print("Mineclone " + version)
+print("`Mineclone`PY " + version)
 print("https://jatc251.com")
-print("https://github.com/Jatc252/Mineclone")
+print("https://github.com/Jatc252/MineclonePY")
 print(" ")
 
 # Defaults for variables which are used by the code
@@ -65,7 +65,7 @@ def askConfigValues():
     global jumpHeightString
     global fovString
     global renderDistanceString
-    print("Mineclone configuration")
+    print("MineclonePY configuration")
     print("")
     print("Would you like to use default values?")
     choice = input("y or n: ")
@@ -1135,7 +1135,7 @@ def setup():
 
 def main():
     window = Window(width=800, height=600,
-                    caption='Mineclone ' + version, resizable=True)
+                    caption='MineclonePY ' + version, resizable=True)
     # Hide the mouse cursor and prevent the mouse from leaving the window.
     window.set_exclusive_mouse(True)
     # Load taskbar icon

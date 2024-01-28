@@ -1,4 +1,4 @@
-# Mineclone
+# MineclonePY
 A project from [Jatc251](https://jatc251.com), forked from [fogleman](https://github.com/fogleman/)'s [python clone of Minecraft](https://github.com/fogleman/Minecraft/)
 
 This Minecraft clone was written in Python, using a single library to be able to get these functions:
@@ -8,7 +8,7 @@ This Minecraft clone was written in Python, using a single library to be able to
 - change texture pack.
 
 ## Dependencies
-Mineclone is able to function using only `pyglet`.
+MineclonePY is able to function using only `pyglet`.
 
 ## Controls
 - Use left click to destroy block you're looking at

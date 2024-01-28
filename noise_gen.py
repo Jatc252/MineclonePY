@@ -1,9 +1,9 @@
 """
-Mineclone - noise_gen.py
+MineclonePY - noise_gen.py
 v0.1.0
 
 Website: https://jatc251.com
-GitHub: https://github.com/Jatc252/Mineclone
+GitHub: https://github.com/Jatc252/MineclonePY
 """
 
 import math
