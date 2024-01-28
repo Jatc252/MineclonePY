@@ -1,35 +1,35 @@
 """
-Mineclone - mineclone.py
-v0.0.2
+MineclonePY - mineclone.py
+v0.1.0
 
 Website: https://jatc251.com
-GitHub: https://github.com/Jatc252/Mineclone
+GitHub: https://github.com/Jatc252/MineclonePY
 """
 
-import sys
 import math
 import random
 import time
-
 from random import seed
 from random import randint
-
-# Pyglet
 from collections import deque
-
-import pyglet.app
-from pyglet import image
-from pyglet.gl import *
-from pyglet.graphics import TextureGroup
-from pyglet.window import key, mouse
-
 from noise_gen import NoiseGen
 
-version = "v0.0.2"
+# Pyglet
+import pyglet.app
+import pyglet.graphics
+import pyglet.image
+import pyglet.window
+from pyglet import gl
+from pyglet.image import *
+from pyglet.input import *
+from pyglet import image
+from pyglet.window import key, mouse
+
+version = "v0.1.0"
 print(" ")
-print("Mineclone " + version)
+print("`Mineclone`PY " + version)
 print("https://jatc251.com")
-print("https://github.com/Jatc252/Mineclone")
+print("https://github.com/Jatc252/MineclonePY")
 print(" ")
 
 # Defaults for variables which are used by the code
@@ -65,7 +65,7 @@ def askConfigValues():
     global jumpHeightString
     global fovString
     global renderDistanceString
-    print("Mineclone configuration")
+    print("MineclonePY configuration")
     print("")
     print("Would you like to use default values?")
     choice = input("y or n: ")
@@ -88,7 +88,7 @@ def askConfigValues():
             tpsInt = int(tpsString)
             break
         except ValueError:
-            print(tpsString + " is not a valid number.")
+            print('{0} is not a valid number.'.format(tpsString))
     print("TPS is now: ", tpsInt)
     print(" ")
 
@@ -100,7 +100,7 @@ def askConfigValues():
             walkSpeedInt = int(walkSpeedString)
             break
         except ValueError:
-            print(walkSpeedString + " is not a valid number.")
+            print("{0} is not a valid number.".format(walkSpeedString))
     print("Walk speed is now: ", walkSpeedInt)
     print(" ")
 
@@ -112,7 +112,7 @@ def askConfigValues():
             flySpeedInt = int(flySpeedString)
             break
         except ValueError:
-            print(flySpeedString + " is not a valid number.")
+            print("{0} is not a valid number.".format(flySpeedString))
     print("Fly speed is now: ", flySpeedInt)
     print(" ")
 
@@ -124,7 +124,7 @@ def askConfigValues():
             gravityInt = int(gravityString)
             break
         except ValueError:
-            print(gravityString + " is not a valid number.")
+            print("{0} is not a valid number.".format(gravityString))
     print("Gravity is now: ", gravityInt)
     print(" ")
 
@@ -137,7 +137,7 @@ def askConfigValues():
             playerHeightInt = int(playerHeightString)
             break
         except ValueError:
-            print(playerHeightString + " is not a valid number.")
+            print("{0} is not a valid number.".format(playerHeightString))
     print("Player height is now: ", playerHeightInt)
     print(" ")
 
@@ -149,7 +149,7 @@ def askConfigValues():
             worldSizeInt = int(worldSizeString)
             break
         except ValueError:
-            print(worldSizeString + " is not a valid number.")
+            print("{0} is not a valid number.".format(worldSizeString))
     print("World size is now: ", worldSizeInt)
     print(" ")
 
@@ -162,7 +162,7 @@ def askConfigValues():
                 jumpHeightInt = int(jumpHeightString)
             break
         except ValueError:
-            print(jumpHeightString + " is not a valid number.")
+            print("{0} is not a valid number.".format(jumpHeightString))
     print("Jump height is now: ", jumpHeightInt)
     print(" ")
 
@@ -175,7 +175,7 @@ def askConfigValues():
                 renderDistanceInt = int(renderDistanceString)
             break
         except ValueError:
-            print(renderDistanceString + " is not a valid number.")
+            print("{0} is not a valid number.".format(renderDistanceString))
     print("Render distance is now: ", renderDistanceInt)
     print(" ")
 
@@ -187,7 +187,7 @@ def askConfigValues():
             fovInt = int(fovString)
             break
         except ValueError:
-            print(fovString + " is not a valid number.")
+            print("{0} is not a valid number.".format(fovString))
     print("FOV is now: ", fovInt)
     print(" ")
 
@@ -344,7 +344,7 @@ class Model(object):
         self.batch = pyglet.graphics.Batch()
 
         # A TextureGroup manages an OpenGL texture.
-        self.group = TextureGroup(image.load(TEXTURE_PATH).get_texture())
+        self.group = pyglet.graphics.TextureGroup(image.load(TEXTURE_PATH).get_texture())
 
         # A mapping from position to the texture of the block at that position.
         # This defines all the blocks that are currently in the world.
@@ -369,7 +369,7 @@ class Model(object):
         # Initialize the world by placing all the blocks.
 
         # Code to adjust random world generation
-        seed(randint(-10000, 99999))
+        seed(time.time())
         gen = NoiseGen(randint(10000, 99999))
 
         n = 128  # size of the world
@@ -552,7 +552,7 @@ class Model(object):
         texture_data = list(texture)
         # create vertex list
         # Maybe `add_indexed()` should be used instead
-        self._shown[position] = self.batch.add(24, GL_QUADS, self.group,
+        self._shown[position] = self.batch.add(24, gl.GL_QUADS, self.group,
                                                ('v3f/static', vertex_data),
                                                ('t2f/static', texture_data))
 
@@ -645,8 +645,8 @@ class Model(object):
         add_block() or remove_block() was called with immediate=False
 
         """
-        start = time.time()
-        while self.queue and time.time() - start < 1.0 / TICKS_PER_SEC:
+        start = time.perf_counter()
+        while self.queue and time.perf_counter() - start < 1.0 / TICKS_PER_SEC:
             self._dequeue()
 
     def process_entire_queue(self):
@@ -657,7 +657,7 @@ class Model(object):
             self._dequeue()
 
 
-class Window(pyglet.window.Window):
+class Window(gl.pyglet.window.Window):
 
     def __init__(self, *args, **kwargs):
         super(Window, self).__init__(*args, **kwargs)
@@ -1009,33 +1009,45 @@ class Window(pyglet.window.Window):
 
         """
         width, height = self.get_size()
-        glDisable(GL_DEPTH_TEST)
-        viewport = self.get_viewport_size()
-        glViewport(0, 0, max(1, viewport[0]), max(1, viewport[1]))
-        glMatrixMode(GL_PROJECTION)
-        glLoadIdentity()
-        glOrtho(0, max(1, width), 0, max(1, height), -1, 1)
-        glMatrixMode(GL_MODELVIEW)
-        glLoadIdentity()
+        gl.glDisable(gl.GL_DEPTH_TEST)
+
+        # From https://github.com/fogleman/Minecraft/pull/110
+        if hasattr(self, "get_viewport_size") and callable(getattr(self, "get_viewport_size")):
+            viewport = self.get_viewport_size()
+            glViewport(0, 0, max(1, viewport[0]), max(1, viewport[1]))
+        else:
+            glViewport(0, 0, max(1, width), max(1, height))
+
+        gl.glMatrixMode(gl.GL_PROJECTION)
+        gl.glLoadIdentity()
+        gl.glOrtho(0, max(1, width), 0, max(1, height), -1, 1)
+        gl.glMatrixMode(gl.GL_MODELVIEW)
+        gl.glLoadIdentity()
 
     def set_3d(self):
         """ Configure OpenGL to draw in 3d.
 
         """
         width, height = self.get_size()
-        glEnable(GL_DEPTH_TEST)
-        viewport = self.get_viewport_size()
-        glViewport(0, 0, max(1, viewport[0]), max(1, viewport[1]))
-        glMatrixMode(GL_PROJECTION)
-        glLoadIdentity()
-        gluPerspective(fovInt, width / float(height), 0.001, glFogEnd)
-        glMatrixMode(GL_MODELVIEW)
-        glLoadIdentity()
+        gl.glEnable(gl.GL_DEPTH_TEST)
+
+        # From https://github.com/fogleman/Minecraft/pull/110
+        if hasattr(self, "get_viewport_size") and callable(getattr(self, "get_viewport_size")):
+            viewport = self.get_viewport_size()
+            glViewport(0, 0, max(1, viewport[0]), max(1, viewport[1]))
+        else:
+            glViewport(0, 0, max(1, width), max(1, height))
+
+        gl.glMatrixMode(gl.GL_PROJECTION)
+        gl.glLoadIdentity()
+        gl.gluPerspective(fovInt, width / float(height), 0.001, glFogEnd)
+        gl.glMatrixMode(gl.GL_MODELVIEW)
+        gl.glLoadIdentity()
         x, y = self.rotation
-        glRotatef(x, 0, 1, 0)
-        glRotatef(-y, math.cos(math.radians(x)), 0, math.sin(math.radians(x)))
+        gl.glRotatef(x, 0, 1, 0)
+        gl.glRotatef(-y, math.cos(math.radians(x)), 0, math.sin(math.radians(x)))
         x, y, z = self.position
-        glTranslatef(-x, -y, -z)
+        gl.glTranslatef(-x, -y, -z)
 
     def on_draw(self):
         """ Called by pyglet to draw the canvas.
@@ -1043,7 +1055,7 @@ class Window(pyglet.window.Window):
         """
         self.clear()
         self.set_3d()
-        glColor3d(1, 1, 1)
+        gl.glColor3d(1, 1, 1)
         self.model.batch.draw()
         self.draw_focused_block()
         self.set_2d()
@@ -1060,10 +1072,10 @@ class Window(pyglet.window.Window):
         if block:
             x, y, z = block
             vertex_data = cube_vertices(x, y, z, 0.51)
-            glColor3d(0, 0, 0)
-            glPolygonMode(GL_FRONT_AND_BACK, GL_LINE)
+            gl.glColor3d(0, 0, 0)
+            gl.glPolygonMode(gl.GL_FRONT_AND_BACK, gl.GL_LINE)
             pyglet.graphics.draw(24, GL_QUADS, ('v3f/static', vertex_data))
-            glPolygonMode(GL_FRONT_AND_BACK, GL_FILL)
+            gl.glPolygonMode(gl.GL_FRONT_AND_BACK, gl.GL_FILL)
 
     def draw_label(self):
         """ Draw the label in the top left of the screen.
@@ -1079,8 +1091,8 @@ class Window(pyglet.window.Window):
         """ Draw the cross-hairs in the center of the screen.
 
         """
-        glColor3d(0, 0, 0)
-        self.reticle.draw(GL_LINES)
+        gl.glColor3d(0, 0, 0)
+        self.reticle.draw(gl.GL_LINES)
 
 
 def setup_fog():
@@ -1089,17 +1101,17 @@ def setup_fog():
     """
     # Enable fog. Fog "blends a fog color with each rasterised pixel fragment's
     # post-texturing color."
-    glEnable(GL_FOG)
+    gl.glEnable(gl.GL_FOG)
     # Set the fog color.
-    glFogfv(GL_FOG_COLOR, (GLfloat * 4)(0.5, 0.69, 1.0, 1))
+    gl.glFogfv(gl.GL_FOG_COLOR, (gl.GLfloat * 4)(0.5, 0.69, 1.0, 1))
     # Say we have no preference between rendering speed and quality.
-    glHint(GL_FOG_HINT, GL_DONT_CARE)
+    gl.glHint(gl.GL_FOG_HINT, gl.GL_DONT_CARE)
     # Specify the equation used to compute the blending factor.
-    glFogi(GL_FOG_MODE, GL_LINEAR)
+    gl.glFogi(gl.GL_FOG_MODE, gl.GL_LINEAR)
     # How close and far away fog starts and ends. The closer the start and end,
     # the denser the fog in the fog range.
-    glFogf(GL_FOG_START, glFogStart)
-    glFogf(GL_FOG_END, glFogEnd)
+    gl.glFogf(gl.GL_FOG_START, glFogStart)
+    gl.glFogf(gl.GL_FOG_END, glFogEnd)
 
 
 def setup():
@@ -1107,23 +1119,23 @@ def setup():
 
     """
     # Set the color of "clear", i.e. the sky, in rgba.
-    glClearColor(0.5, 0.69, 1.0, 1)
+    gl.glClearColor(0.5, 0.69, 1.0, 1)
     # Enable culling (not rendering) of back-facing facets -- facets that aren't
     # visible to you.
-    glEnable(GL_CULL_FACE)
+    gl.glEnable(gl.GL_CULL_FACE)
     # Set the texture minification/magnification function to GL_NEAREST (nearest
     # in Manhattan distance) to the specified texture coordinates. GL_NEAREST
     # "is generally faster than GL_LINEAR, but it can produce textured images
     # with sharper edges because the transition between texture elements is not
     # as smooth."
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST)
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST)
+    gl.glTexParameteri(gl.GL_TEXTURE_2D, gl.GL_TEXTURE_MIN_FILTER, gl.GL_NEAREST)
+    gl.glTexParameteri(gl.GL_TEXTURE_2D, gl.GL_TEXTURE_MAG_FILTER, gl.GL_NEAREST)
     setup_fog()
 
 
 def main():
     window = Window(width=800, height=600,
-                    caption='Mineclone ' + version, resizable=True)
+                    caption='MineclonePY ' + version, resizable=True)
     # Hide the mouse cursor and prevent the mouse from leaving the window.
     window.set_exclusive_mouse(True)
     # Load taskbar icon
